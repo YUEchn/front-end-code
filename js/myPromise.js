@@ -1,3 +1,4 @@
+const { url } = require("inspector");
 const { resolve } = require("path");
 const { reject } = require("prelude-ls");
 
@@ -17,42 +18,42 @@ const promisesResolved = [
     Promise.resolve('First resolve promise'),
     'Non-promise value',
     Promise.resolve('Third resolve promise')
-  ];
+];
 const promisesRejected = [
-      new Promise((resolve)=>{
+    new Promise((resolve) => {
         resolve('First resolve promise')
-      }),
-      'Non-promise value',
-      Promise.reject('Third reject promise'),
-      Promise.reject('four reject promise'),
-      new Promise((resolve)=>{
+    }),
+    'Non-promise value',
+    Promise.reject('Third reject promise'),
+    Promise.reject('four reject promise'),
+    new Promise((resolve) => {
         resolve('Five resolve promise')
-        setTimeout(()=>{
+        setTimeout(() => {
             console.log('1111111111')
         }, 5000)
-      })
-    ];
+    })
+];
 
 // 原始的promise.all
-function promiseAllOrigin(){
+function promiseAllOrigin() {
 
-      /*返回所有成果的结果：
-        [
-            'First resolve promise',
-            'Non-promise value',
-            'Third resolve promise'
-        ]
-      */
-      Promise.all(promisesResolved.map(p => Promise.resolve(p)))
+    /*返回所有成果的结果：
+      [
+          'First resolve promise',
+          'Non-promise value',
+          'Third resolve promise'
+      ]
+    */
+    Promise.all(promisesResolved.map(p => Promise.resolve(p)))
         .then(results => console.log(results))
         .catch(error => console.error(error));
 
-        /* 捕获第一个失败的，其他继续执行：
-            1111111111
-            1111111111
-            Third reject promise
-        */
-        Promise.all(promisesRejected.map(p => Promise.resolve(p)))
+    /* 捕获第一个失败的，其他继续执行：
+        1111111111
+        1111111111
+        Third reject promise
+    */
+    Promise.all(promisesRejected.map(p => Promise.resolve(p)))
         .then(results => console.log(results))
         .catch(error => console.error(error));
 }
@@ -73,20 +74,20 @@ function promiseAllOrigin(){
 */
 
 let count = 0
-function myPromiseAll(promises){
-    if(!Array.isArray(promises)){
+function myPromiseAll(promises) {
+    if (!Array.isArray(promises)) {
         throw new Error('argument is not a array')
     }
     let promiseArr = []
     // let count = 0; // 完成的promise数量，处理异步的情况，不能直接使用index判断
-    return new Promise((resolve, reject)=>{
+    return new Promise((resolve, reject) => {
         promises.forEach((p, i) => {
             // 确保每一个元素都是promise对象
             Promise.resolve(p).then(res => {
-                promiseArr[i] = res 
+                promiseArr[i] = res
                 count += 1
                 // 全部promise都执行完成
-                if(count === promises.length){
+                if (count === promises.length) {
                     resolve(promiseArr)
                 }
             }).catch(reject)
@@ -117,8 +118,8 @@ function myPromiseAll(promises){
 步骤：
     接受promise实例的数组或者可迭代对象的数组；如果数组中的元素不是promise就将它转为promise
 */
-function myPromiseRace(promises){
-    if(! Array.isArray(promises)){
+function myPromiseRace(promises) {
+    if (!Array.isArray(promises)) {
         throw new Error('data type error')
     }
 
@@ -135,14 +136,51 @@ function myPromiseRace(promises){
 
 
 // 使用promise和async/await实现并发请求
-function getData(){
-    return new Promise(resolve => {
+const concurrencyRequest = (urls, maxNums) => {
+    return new Promise((resolve) => {
+      //     如果urls为空，就不进行直接返回结果
+      if (urls.length === 0) {
+        resolve([]);
+        return;
+      }
+      console.log(urls, maxNums);
+      const result = [];
+      let index = 0; // 表示当前请求得url索引
+      let count = 0; // 表示当前已经请求得到数据的数量
+      async function request() {
+        if (index === urls.length) return;
+  
+        const i = index; // 确保位置能够正确对应
+        const url = urls[index];
+        index++;
+        // 这部分以上的内容是同步的，所以能够正确的对应上位置
+        try {
+          const resp = await fetch(url);
+          result[i] = resp;
+        } catch (err) {
+          result[i] = err;
+        } finally {
+          count++;
+          if (count === urls.length) {
+            console.log("全部请求完成");
+            resolve(result);
+          }
+          request(); // 只要有一次请求执行完成，就添加新的请求进去
+        }
+      }
+  
+      const times = Math.min(maxNums, urls.length);
+      for (let i = 0; i < times; i++) {
+        // 初次发起最大数量的请求，等待请求执行
+        request();
+      }
+    });
+  };
+  
 
-
-
-
-
-
-    })
+const urls = [];
+for (let i = 1; i <= 20; i++) {
+    urls.push(`https://jsonplaceholder.typicode.com/todos/${i}`);
 }
-getData(url, maxNumber).then((res) => console.log(res))
+const maxNumber = 3;
+concurrencyRequest(urls, maxNumber).then((res) => console.log(res))
