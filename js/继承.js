@@ -81,6 +81,7 @@ function ClassParent(name, age){
     this.age =age
 }
 function ClassChild(name, age, address){
+    // 调用父类的构造函数实现继承
     ClassParent.call(this, name, age)
     this.address = 'china'
 }
@@ -115,21 +116,21 @@ console.log(zuheChild.colors) // ['white', 'yellow', 'black']
 console.log(zuhe.getEyes()) // black
 
 // 【4. 原型式继承】
-// 将原型链的继承封装成了一个函数，并利用一个空对象作为中介
+// 将原型链的继承封装成了一个函数，并利用一个【空对象作为中介】
 // 不能传参
 // 引用类型的属性会被新对象共享
-const object = function (obj){
-  function F(){}
-  F.prototype = obj
-  return F()
+const objectCopy = function (obj){
+  function Fun(){}
+  Fun.prototype = obj
+  return Fun()
 }
 
 const yuanxingshi = {
   eyes: 'black',
   colors: ['red', 'green', 'blue']
 }
-
-let b = object(yuanxingshi)
+// 复制了一个新对象
+let b = objectCopy(yuanxingshi)
 console.log(b.eyes);
 console.log(b.colors);
 
@@ -139,7 +140,9 @@ console.log(b.colors);
 // 为构造函数增强属性和方法，增加函数
 function inherit(o) {
   let clone = Object.create(o)
-  clone.sayHi = function () { // 增强对象
+
+  // 增强对象
+  clone.sayHi = function () { 
     console.log('Hi')
   }
   return clone
@@ -159,7 +162,7 @@ laowang.sayHi() // Hi
 // 【6. 寄生式组合继承】
 // 结合借用构造函数传递参数和寄生模式实现继承
 function inheritPrototype(Child, Parent){
-  // 创建一个父类原型的副本
+  // 创建一个父类原型的副本对象
   const prototype = Object.create(Parent.prototype)
   // 增强对象：弥补因为重写原型导致constructor丢失的问题
   prototype.construtor = Child

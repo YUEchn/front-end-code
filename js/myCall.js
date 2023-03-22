@@ -32,7 +32,8 @@ Function.prototype.mycall = function(context){   // 只有第一个参数，值�
   context = context || window  // 如果设置的this是null或者undefined，则设置this为Window
  	console.log('this, context: ', this, context)
   let result = null
-  context.fn = this    // 给上下文添加这个属性， 如果context中已经有了fn这个属性，
+  context.fn = this    // 给上下文添加这个属性， 如果context中已经有了fn这个属性，就随机生成一个名称帮进行绑定
+
   // let params = [...arguments].slice(1)   // 取出参数
   // result = context.fn(...params)  // 执行函数
   

@@ -1,10 +1,6 @@
 
 
 // 基于promise和setTimeout实现sleep
-
-const { resolve } = require("path");
-const { reject } = require("prelude-ls");
-
 function fnA() {
     console.log('A');
   }

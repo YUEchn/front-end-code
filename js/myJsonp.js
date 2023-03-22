@@ -4,7 +4,7 @@
 // 只能使用get请求 
 function myJsonp(src){
     let script = document.createElement('script')
-    script.type - 'text/javascript'
+    script.type = 'text/javascript'
     script.src = src
     document.body.appendChild(script)
 }

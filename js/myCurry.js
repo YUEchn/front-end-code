@@ -19,6 +19,9 @@ function Mycurry(fn){
     }
 }
 
+
+
+
 function cal(args){
     return args.reduce((tatal, cur)=> tatal + cur, 0)
 }
@@ -65,7 +68,7 @@ function sum(){
 
         return add
     }
-
+    
     add.sumOf = function(){
         return res
     }
@@ -73,3 +76,40 @@ function sum(){
     return add
 }
 console.log('sum(1)(2,3)(4,5)(7)', sum(1)(2,3)(4,5)(7).sumOf())
+
+
+// 蚂蚁笔试
+const addRemote = async (a, b) => new Promise(resolve => {
+    setTimeout(() => resolve(a + b), 1000)
+})
+
+async function add(...inputs) {
+    let params = [...inputs];
+    let res = 0;
+    async function cal(){
+        if(params.length > 0){
+            res  =  await addRemote(res, params[0])
+            params.shift(1)
+            
+            if(params.length === 0){
+                return 
+            }
+            return await cal()
+        }
+        
+
+    }
+    await cal()
+}
+
+
+
+add(1, 2)
+  .then(result => {
+    console.log(result) // 3
+  })
+
+add(3, 5, 2)
+  .then(result => {
+    console.log(result) // 10
+  })

@@ -38,8 +38,8 @@ console.log(hasCircularReference(a, []));
 
 
 // 检测是否存在循环引用并给出存在的位置
+// 步骤：遍历对象，如果当前key是一个对象，就递归遍历
 function detect2(obj, parentArr){
-    
     for(let key in obj){
         if(typeof obj[key] === 'obj' && obj[key] !== null){
             if(parentArr.includes(key)){

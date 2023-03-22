@@ -14,10 +14,11 @@
 console.log(`***************************Object.assign**********************`)
 
 Object.myAssign = function(target, ...source) {
-        if (target == null) { 
+        if (target == null || target == undefined) { 
             throw new TypeError('Cannot convert undefined or null to object');
         }
     
+        // 会执行自动转object的操作
         var to = Object(target);
         source.forEach((obj) => {
             if(obj !== null){
@@ -99,6 +100,7 @@ function shadowCopy(obj){
         throw new Error(`${obj} is not a object`)
     }
 
+    
     let targetObj = Array.isArray(obj)? []: {}
     for(let key in obj){
         // 是obj的自有属性

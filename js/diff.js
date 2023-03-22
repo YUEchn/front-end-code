@@ -47,6 +47,7 @@ const objA = {
         // 如果属性是一个对象，则递归比较其属性值
         if (typeof obj1[prop] === 'object' && typeof obj2[prop] === 'object') {
           let childDiffs = diff0(obj1[prop], obj2[prop]);
+          // childDiffs是有差异的情况
           if (Object.keys(childDiffs).length > 0) {
             diffs[prop] = childDiffs;
           }

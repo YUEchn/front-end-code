@@ -22,7 +22,7 @@ function change2tree(arr){
 
 
     */
-    // 获取每一项的值
+    // 获取每一项的id： value的对应关系
     arr.forEach((e) => {
         map[e.id] =e
     })

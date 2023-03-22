@@ -12,7 +12,9 @@ function myFlaten(arr){
     return res
 }
 
+
 // 使用reduce方法实现
+// 递归调用
 function myFlaten2(arr){
     return arr.reduce((prev, cur) => {
         if(Array.isArray(cur)){

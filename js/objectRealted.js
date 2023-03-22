@@ -1,11 +1,10 @@
-// 手写 Object.create:闯将一个新对象，带着指定的原型对象及其属性
+// 手写 Object.create：创建一个新对象，带着指定的原型对象及其属性
 // 使用proto创建一个新的对象
 // constructor必须是null或者Object
 function createObject(proto, properties){
     if(typeof proto !== 'object' && typeof proto !== 'function'){
         console.log('不是一个Object或者不是null');
         return
-        
     }
     // 定义一个空对象
     const obj = {}

@@ -30,6 +30,7 @@ console.log(format(1234567));
     (?<!y)x：反否定查找，仅仅当前面不是 y 时匹配 x 
 
 */
+
 function format2(args){
     return args.toString().replace(/(?<!\.\d*)\B(?=(\d{3})+(?!\d))/g, ',')
 }
