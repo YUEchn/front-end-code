@@ -4,7 +4,6 @@ function myDebounce(fn, delay){
     return function(){
         if(timer){
             clearTimeout(timer)
-            timer = null
         }
 
         timer = setTimeout(() => {
