@@ -1,0 +1,10 @@
+{
+    "configurations": [
+        {
+            "type": "node-terminal",
+            "name": "JavaScript 调试终端",
+            "request": "launch",
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}

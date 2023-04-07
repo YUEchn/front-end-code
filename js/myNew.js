@@ -10,7 +10,7 @@ function myNew(cons, ...args){
     // Object.create(obj, properties)创建对象的时候设置新创建对象的原型
     let newObj = Object.create(constructor.protptype)
 
-    // 将构造函数的this执行新创建的对象，同时会执行构造函数
+    // 将构造函数的this指向新创建的对象，同时会执行构造函数
     // result是构造函数执行后的返回值
     let result = constructor.apply(newObj, args)
 
@@ -22,3 +22,11 @@ function myNew(cons, ...args){
     // 说明构造函数的返回值是一个基本数据类型，因此返回新创建的实例
     return newObj
 }
+
+function Test(a){
+    console.log(a);
+    return {'a': 'test'}
+}
+
+let testObj = new Test('aa')
+console.log(testObj.a);

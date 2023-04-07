@@ -1,5 +1,4 @@
 // 使用闭包改变this指向
-
 const obj1 = {
   obj1_name: "obj1",
   sayName: () => {
@@ -71,3 +70,52 @@ const testObj2 = {
 testObj.getArrow()()  // true
 testObj2.getArrow()() // true
 testObj2.getArrow2()  // false
+
+
+var name = "windowsName";
+
+var a = {
+    name : "Cherry",
+
+    func1: function () {
+        console.log(this.name)     
+    },
+
+    func2: function () {
+        console.log(this.name);
+        let that = this
+        // setTimeout是挂在在window上的
+        // 两种this：调用函数的this，函数内部的this
+        // 变量：
+          // 回调函数中的变量根据上下文读取
+        setTimeout(function () {
+            // 此时的this指向window，会报错
+            // this.func1()
+
+            // 改变this
+            that.func1()
+            
+        },100);
+    }
+
+};
+
+// a.func2()     // this.func1 is not a function
+
+
+var test = "in the window";
+ 
+setTimeout(function() {console.log('outer' + test)}, 0); // outer in the window  ，没有问题，在全局下调用，访问全局中的test
+
+function f() {
+  // 
+  var test = 'in the f!';
+
+  // 等同于闭包，能够访问父级作用域的变量
+  setTimeout(function(){console.log('inner '+ test)}, 0);  // inner in the f!  有问题，不是说好了执行函数中的this指向的是window吗？那test也应该对应window下                                                      //  的值才对，怎么test的值却是 f()中的值呢？？？？
+  setTimeout(console.log, 0, ('inner '+ test));  // inner in the f!  有问题，不是说好了执行函数中的this指向的是window吗？那test也应该对应window下                                                      //  的值才对，怎么test的值却是 f()中的值呢？？？？
+  setTimeout(console.log, 0, ('inner '+ this.test));  // inner in the f!  有问题，不是说好了执行函数中的this指向的是window吗？那test也应该对应window下                                                      //  的值才对，怎么test的值却是 f()中的值呢？？？？
+
+}
+ 
+f();

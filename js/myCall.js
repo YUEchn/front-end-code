@@ -96,3 +96,8 @@ bindFn3(777)   // 执行函数
 
 // 如果绑定的函数被new了，当前函数的this需要是当前的实例而不是传入的上下文
 let instance = new bindFn()
+
+
+
+
+

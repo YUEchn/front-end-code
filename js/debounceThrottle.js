@@ -8,10 +8,10 @@ function myDebounce(fn, delay, immediate = false){
         clearInterval(timer)
 
         if(immediate){
-            fn.apply(this, args)
+            fn.apply(this, arguments)
         }else{
             timer = setTimeout(() => {
-                fn.apply(this, args)
+                fn.apply(this, arguments)
             }, delay)
         }
     }
@@ -26,11 +26,10 @@ function myThrottle1(fn){
     return function(){
         // 如果是不可执行阶段，就直接返回
         if(!flag) return
-        let args = [...arguments]
 
         // 每个单位之间内的第一次触发，应该执行
         if(flag){
-            fn.apply(this, args)
+            fn.apply(this, arguments)
             flag = false
         }
         setTimeout(() => {
@@ -43,13 +42,10 @@ function myThrottle2(fn, delay){
     let curTime = Data.now()
     return function(){
         let time = Data.now()
-        let args = [...arguments]
-        if((time - curTime) < delay){
+        if((time - curTime) > delay){
             curTime = time
-            fn.apply(this, args)
+            fn.apply(this, arguments)
         }
         return
     }
-
-
 }

@@ -18,6 +18,7 @@ function parseUrl(url){
             // 解码
             val = decodeURIComponent(val)
             // 能转化为数字就转化为数字
+            // 检查是否符合全是数字的模式
             val = /^\d+$/.test(val) ? parseFloat(val): val
 
             if(res.hasOwnProperty(key)){

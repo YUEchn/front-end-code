@@ -59,6 +59,7 @@ function deepClone(obj){
     return targetObj
 }
 
+
 let t3 = deepClone(time)
 console.log(t3);
 let t4 = deepClone([1,2,3,4]);

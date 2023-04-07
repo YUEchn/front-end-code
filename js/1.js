@@ -108,42 +108,43 @@ var t2 = f().call({ id: 3 })();
 var t3 = f()().call({ id: 4 });
 
 
-
-function testArrow(){
-  const name = 'testObj'
+function testArrow() {
+  const name = "testObj";
   const obj = {
-    name: 'obj',
+    name: "obj",
     sayName: () => {
       // {'ahahah': 4545}，他的 this 跟着testArrow走
       console.log(this);
     },
-    sayName2: function(){
+    sayName2: function () {
       const sayName3 = () => {
+        // 跟着sayName2的this走
+        // {name: 'obj', sayName: ƒ, sayName2: ƒ}
         console.log(this);
-      }
-      sayName3()
-    }
-  }
+      };
+      sayName3();
+    },
+  };
 
-  
-obj.sayName()
-obj.sayName2()
+  obj.sayName();
+
+  // obj调用sayName2，所以sayName2的this指向obj
+  obj.sayName2();
 }
-// testArrow.call({'ahahah': 4545})
-
-
+console.log('testArrow');
+testArrow.call({'ahahah': 4545})
 
 var obj = {
   a: 1,
-  foo: function(b){
-    b = b| this.a
-    return function (c){
-      console.log(this.a+b+c);
-    }
-  }
-}
+  foo: function (b) {
+    b = b | this.a;
+    return function (c) {
+      console.log(this.a + b + c);
+    };
+  },
+};
 
-var a = 2
-var obj2 = { a: 3}
-obj.foo(a).call(obj2, 1)  // 
-obj.foo.call(obj2)(1)
+var a = 2;
+var obj2 = { a: 3 };
+obj.foo(a).call(obj2, 1); //
+obj.foo.call(obj2)(1);

@@ -18,7 +18,7 @@ Object.myAssign = function(target, ...source) {
             throw new TypeError('Cannot convert undefined or null to object');
         }
     
-        // 会执行自动转object的操作
+        // 当参数不是Object的时候，会转换为Object
         var to = Object(target);
         source.forEach((obj) => {
             if(obj !== null){
